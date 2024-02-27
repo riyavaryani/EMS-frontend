@@ -1,55 +1,42 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { listEmployees } from '../services/EmployeeService.js';
 
 const ListEmployee = () => {
+	const [employees, setEmployees] = useState([]);
 
-    const employees = [
-        {
-            id: 1,
-            firstName: "ut",
-            lastName: "ch",
-            emailId: "utchak@gmail.com"
-        },
-        {
-            id: 2,
-            firstName: "r",
-            lastName: "v",
-            emailId: "rv@gmail.com"
-        },
-        {
-            id: 3,
-            firstName: "riya",
-            lastName: "chak",
-            emailId: "rchak@gmail.com"
-        },
-    ]
+	useEffect(() => {
+		listEmployees()
+			.then((res) => setEmployees(res.data))
+			.catch(err => console.log(err));
+	}, []);
 
-    return (
-        <div className="p-4">
-            <h2 className="text-center my-3">Lists of Employee</h2>
-            <table className="table table-striped table-hover">
-                <thead className="table-dark">
-                    <tr>
-                        <th>Employee ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    employees.length > 0 && employees.map((emp) => (
-                        <tr key={emp.id}>
-                            <td>{emp.id}</td>
-                            <td>{emp.firstName}</td>
-                            <td>{emp.lastName}</td>
-                            <td>{emp.emailId}</td>
-                        </tr>
-                    ))
-                }
-                </tbody>
-            </table>
-        </div>
-    );
-}
+	return (
+		<div className="container mb-5">
+			<h2 className="text-center my-3">Lists of Employee</h2>
+			<table className="table table-striped table-hover table-bordered">
+				<thead className="table-dark">
+				<tr>
+					<th>Employee ID</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email ID</th>
+				</tr>
+				</thead>
+				<tbody>
+				{
+					employees.length > 0 && employees.map((emp) => (
+						<tr key={emp.id}>
+							<td>{emp.id}</td>
+							<td>{emp.firstName}</td>
+							<td>{emp.lastName}</td>
+							<td>{emp.email}</td>
+						</tr>
+					))
+				}
+				</tbody>
+			</table>
+		</div>
+	);
+};
 
 export default ListEmployee;
